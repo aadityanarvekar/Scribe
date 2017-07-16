@@ -24,7 +24,6 @@ class MainVC: UIViewController, SFSpeechRecognizerDelegate {
     
     private var _isListening: Bool! = false
     private var _hasTranscribedText: Bool! = false
-    private var _authorized: Bool! = false
     
     var toast:Toast?
     
@@ -45,7 +44,7 @@ class MainVC: UIViewController, SFSpeechRecognizerDelegate {
             prepareForListeningAndTranscribing()
         } else if SFSpeechRecognizer.authorizationStatus() == SFSpeechRecognizerAuthorizationStatus.denied {
             print("Access denied")
-            let alert = UIAlertController(title: "Access denied", message: "Please provide access via Settings", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Access denied", message: "Access to speen recognition require. Please provide access via Settings", preferredStyle: .alert)
             let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             let settingsAction = UIAlertAction(title: "Go to Settings", style: .default, handler: { (action) in
                 let settingsUrl = URL(string: UIApplicationOpenSettingsURLString)
@@ -165,7 +164,6 @@ class MainVC: UIViewController, SFSpeechRecognizerDelegate {
             OperationQueue.main.addOperation {
                 switch status {
                 case .authorized:
-                    self._authorized = true;
                     self.prepareForListeningAndTranscribing()
                     break;
                 case .denied:
